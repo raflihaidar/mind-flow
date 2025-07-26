@@ -2,6 +2,7 @@ services:
   app:
     build:
       context: ./docker/php
+      dockerfile: docker/Dockerfile
     container_name: mind-flow
     volumes:
       - ./src:/var/www/html
