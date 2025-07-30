@@ -1,46 +1,60 @@
 services:
   app:
     build:
-      context: ./docker/php
-      dockerfile: docker/Dockerfile
-    container_name: mind-flow
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: mind-flow-app
     volumes:
-      - ./src:/var/www/html
-    ports:
-      - "8000:8000"
+      - .:/var/www/html
+    depends_on:
+      - mysql
+      - mongodb
     networks:
       - laravel
+    working_dir: /var/www/html
 
   web:
     image: nginx:latest
-    container_name: laravel-vue-nginx
+    container_name: mind-flow-nginx
     ports:
       - "8081:80"
     volumes:
-      - ./src:/var/www/html
+      - .:/var/www/html
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
     networks:
       - laravel
 
-  db:
+  mysql:
     image: mysql
-    container_name: mind-flow-db
+    container_name: mind-flow-mysql
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mind-flow
-      MYSQL_USER: mind-db
-      MYSQL_PASSWORD: mind-db25
-    volumes:
-      - db-data:/var/lib/mysql
+      MYSQL_USER: mind-flow
+      MYSQL_PASSWORD: mindflow25
     ports:
-      - "3307:3306"
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel
+
+  mongodb:
+    image: mongo:latest
+    container_name: mind-flow-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
     networks:
       - laravel
 
 volumes:
-  db-data:
+  mysql_data:
+  mongodb_data:
 
 networks:
   laravel:
