@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mind_map_access', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();;
+            $table->uuid('mind_map_id');
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->enum('role', ['owner', 'editor', 'viewer']);
             $table->timestamps();
         });
     }
