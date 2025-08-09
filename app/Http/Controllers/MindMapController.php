@@ -43,7 +43,20 @@ class MindMapController extends Controller
     }
 
     public function store() {}
-    public function update() {}
+
+    public function update(Request $request, $id) {
+        try{
+            $data = MindMap::findOrFail($id);
+            $data->nodes = $request->nodes;
+            $data->save();
+
+            return back()->with('success', 'Mind map updated successfully');
+
+        }catch(\Exception $e){
+            return back()->with('error', 'Mind map update failed');
+        }
+    }
+
     public function edit() {}
     public function delete() {}
 }

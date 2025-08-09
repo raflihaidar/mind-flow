@@ -2,6 +2,15 @@ import './bootstrap';
 
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+const toasOptions = {
+    transition: "Vue-Toastification__fade",
+    maxToasts: 3,
+    newestOnTop: true,
+    timeout : 2000
+}
 
 createInertiaApp({
   resolve: name => {
@@ -11,6 +20,7 @@ createInertiaApp({
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)
+      .use(Toast, toasOptions)
       .mount(el)
   },
 })
