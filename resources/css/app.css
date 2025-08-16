@@ -13,6 +13,7 @@
 @import '@vue-flow/core/dist/theme-default.css';
 
 @theme inline {
+  --color-canvas : #f9f7f1
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

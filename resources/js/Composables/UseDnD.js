@@ -23,9 +23,8 @@ const state = {
   isDragging: ref(false),
 }
 
-export default function useDragAndDrop(nodes = []) {
+export default function useDragAndDrop() {
   const { draggedType, isDragOver, isDragging } = state
-  const nodesList = ref(nodes)
 
   const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode } = useVueFlow()
 
@@ -78,22 +77,19 @@ export default function useDragAndDrop(nodes = []) {
    *
    * @param {DragEvent} event
    */
-  function onDrop(event) {
-    // console.log("id node : ", id)
+  function onDrop(event, lastId) {
     const position = screenToFlowCoordinate({
       x: event.clientX,
       y: event.clientY,
     })
 
-    // console.log("node id : ", state.dra)
-
-    const nodeId = getId()
+    const nodeId = ++lastId.value
 
     const newNode = {
       id: nodeId,
       type: draggedType.value,
       position,
-      data: { label: nodeId },
+      data: { id : nodeId, label: '' },
     }
 
     /**
