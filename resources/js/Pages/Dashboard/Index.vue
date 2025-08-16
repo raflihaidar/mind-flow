@@ -48,5 +48,4 @@ const createMindMap = () => {
     >
         <Icon icon="material-symbols:add-2-rounded" class="size-8" />
     </Button>
-
 </template>

@@ -2,6 +2,16 @@ import './bootstrap';
 
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import { ZiggyVue } from 'ziggy-js';
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+const toasOptions = {
+    transition: "Vue-Toastification__fade",
+    maxToasts: 3,
+    newestOnTop: true,
+    timeout : 2000
+}
 
 createInertiaApp({
   resolve: name => {
@@ -11,6 +21,8 @@ createInertiaApp({
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)
+      .use(ZiggyVue)
+      .use(Toast, toasOptions)
       .mount(el)
   },
 })

@@ -1,17 +1,11 @@
 <script setup>
-import CanvasBuilderLayout from '@/Layouts/CanvasBuilderLayout.vue';
-import { Head } from '@inertiajs/vue3';
-
-defineOptions({
-    layout : CanvasBuilderLayout
-})
-
-defineProps({
-    title : String
-})
+import CanvasBuilderLayout from '@/Layouts/CanvasBuilderLayout.vue'
+import { onMounted, reactive } from 'vue'
 </script>
 
-
 <template>
-    <Head :title="title"/>
+    <CanvasBuilderLayout
+    class="dnd-flow"
+    >
+    </CanvasBuilderLayout>
 </template>

@@ -42,8 +42,30 @@ class MindMapController extends Controller
         ]);
     }
 
-    public function store() {}
-    public function update() {}
+    public function store(Request $request) {
+
+    }
+
+    public function update(Request $request, $id) {
+        try{
+            $data = MindMap::findOrFail($id);
+            $data->nodes = $request->nodes;
+            $data->edges = $request->edges;
+            $data->save();
+
+            return back()->with('success', 'Mind map updated successfully');
+
+        }catch(\Exception $e){
+            dd($e->getMessage());
+            return back()->with('error', 'Mind map update failed');
+        }
+    }
+
     public function edit() {}
-    public function delete() {}
+
+    public function destroy($id)
+    {
+        $data = MindMap::findOrFail($id);
+        return response()->json(['message' => 'Mind map dihapus']);
+    }
 }
