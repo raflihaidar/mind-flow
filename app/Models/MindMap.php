@@ -11,5 +11,5 @@ class MindMap extends Model
 
     protected $table = 'mind_map';
     protected $connection = 'mongodb';
-    protected $fillable = ['title', 'creator', 'nodes'];
+    protected $fillable = ['title', 'creator', 'nodes', 'edges'];
 }

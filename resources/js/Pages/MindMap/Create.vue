@@ -6,6 +6,7 @@ import { onMounted, reactive } from 'vue'
 <template>
     <CanvasBuilderLayout
     class="dnd-flow"
+    mode="create"
     >
     </CanvasBuilderLayout>
 </template>

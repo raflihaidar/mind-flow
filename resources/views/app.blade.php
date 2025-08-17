@@ -12,7 +12,7 @@
         @vite('resources/css/app.css')
         @inertiaHead
     </head>
-    <body>
+    <body class="light">
         @inertia
     </body>
 </html>

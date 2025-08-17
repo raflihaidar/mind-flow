@@ -4,7 +4,7 @@ import BaseHeader from '@/Components/shared/BaseHeader.vue';
 import { useToast } from "vue-toastification";
 import { usePage } from '@inertiajs/vue3'
 import BaseHeaderBuilder from '@/Components/shared/BaseHeaderBuilder.vue';
-import { onMounted, ref, toRefs, watch, reactive, markRaw, computed } from 'vue'
+import { onMounted, ref, toRefs, watch, reactive, markRaw, computed, nextTick } from 'vue'
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import SpecialEdge from '@/Components/ui/edge/SpecialEdge.vue'
@@ -23,6 +23,9 @@ const props = defineProps({
     data : Object
 })
 
+const isReadOnly = ref(true)
+const titleInput = ref()
+
 const data = reactive({
     title : 'document',
     nodes: [],
@@ -38,6 +41,8 @@ onMounted(() => {
 const handleSave = () => {
   if(props.mode === 'edit') router.put(`/mindMap/${props.data.id}`, data)
   else router.post(`/mindMap`, data)
+
+  console.log("data : ", data)
 }
 
 const {
@@ -77,6 +82,14 @@ const alert = ref({
 
 const successMessage = ref(page.props.flash.success)
 const errorMessage = ref(page.props.flash.error)
+
+const handleClick = () => {
+    // console.log('Double click terdeteksi')
+    isReadOnly.value = false
+    nextTick(() => {
+        titleInput.value.focus()
+    })
+}
 
 onEdgeClick((event, edge) => {
     console.log('edge clicked', edge)
@@ -131,7 +144,7 @@ watch(
             <Button size="icon" @click="router.get('/')" class="cursor-pointer">
                 <Icon icon="mdi:chevron-left-box" class="size-5"/>
             </Button>
-            <input v-model="data.title" class="border-none outline-none text-lg" readonly/>
+            <input ref="titleInput" @dblclick="handleClick" v-model="data.title" class="border-none outline-none text-lg" :readonly="isReadOnly"/>
             <!-- <h2 class="text-xl font-medium ml-2">{{ props.data?.title }}</h2> -->
         </div>
 
@@ -146,9 +159,9 @@ watch(
                 @dragleave="onDragLeave"
                 :default-viewport="{ zoom: 1.5 }"
                 >
-                <BaseDefaultCanvas :class="[{ 'bg-black opacity-80 transition-colors': isDragOver }]">
+                <BaseDefaultCanvas>
                     <BaseHeaderBuilder @save="handleSave"/>
-                    <p v-if="isDragOver" class="text-3xl z-30 text-white">Drop here</p>
+                    <!-- <p v-if="isDragOver" class="text-3xl z-30 text-white">Drop here</p> -->
                 </BaseDefaultCanvas>
             </VueFlow>
         </div>

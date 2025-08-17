@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMindMap;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use \App\Models\MindMap;
@@ -42,8 +43,15 @@ class MindMapController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(StoreMindMap $request) {
 
+        MindMap::create([
+            'title' => $request->title,
+            'nodes' => $request->nodes,
+            'edges' => $request->edges
+        ]);
+
+        return redirect('/')->with('success', 'Mind map created successfully');
     }
 
     public function update(Request $request, $id) {
@@ -51,6 +59,7 @@ class MindMapController extends Controller
             $data = MindMap::findOrFail($id);
             $data->nodes = $request->nodes;
             $data->edges = $request->edges;
+            $data->title = $request->title;
             $data->save();
 
             return back()->with('success', 'Mind map updated successfully');
@@ -63,9 +72,10 @@ class MindMapController extends Controller
 
     public function edit() {}
 
-    public function destroy($id)
+    public function destroy(MindMap $mindMap)
     {
-        $data = MindMap::findOrFail($id);
-        return response()->json(['message' => 'Mind map dihapus']);
+        $mindMap->delete();
+
+        return back()->with('success', 'Mind map deleted successfully');
     }
 }
