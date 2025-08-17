@@ -136,16 +136,22 @@ watch(
 </script>
 
 <template>
-    <div class="w-screen h-screen dnd-flow relative" @drop="handleDropNode($event)">
-        <!-- <Button @click="router.get('/')" class="fixed top-0">Back</Button> -->
+    <div class="w-screen h-screen dnd-flow relative bg-[#f9f7f1]" @drop="handleDropNode($event)">
         <BaseBuilderSidebar />
 
         <div class="flex w-64 items-center gap-x-2 absolute top-5 left-5 py-3 px-5 rounded-xl z-50 bg-white/80 shadow-sm">
             <Button size="icon" @click="router.get('/')" class="cursor-pointer">
-                <Icon icon="mdi:chevron-left-box" class="size-5"/>
+                <Icon icon="mdi:chevron-left" class="size-8"/>
             </Button>
-            <input ref="titleInput" @dblclick="handleClick" v-model="data.title" class="border-none outline-none text-lg" :readonly="isReadOnly"/>
-            <!-- <h2 class="text-xl font-medium ml-2">{{ props.data?.title }}</h2> -->
+
+            <input ref="titleInput"
+            @dblclick="handleClick"
+            v-model="data.title"
+            :class="[
+            isReadOnly ? 'border-none' : 'border border-black','outline-none text-lg w-full px-1'
+            ]"
+            :readonly="isReadOnly"
+            />
         </div>
 
         <!-- Main content -->

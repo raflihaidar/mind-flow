@@ -9,6 +9,7 @@ import { Icon } from "@iconify/vue";
 import Button from '@/Components/ui/button/Button.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({
     title: String,
@@ -34,7 +35,7 @@ const deleteMindMap = (item) => {
 <template>
     <Head :title="title" />
 
-    <div class="p-5">
+    <AuthenticatedLayout>
         <h1 class="mb-5 font-semibold">List Mind Map</h1>
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-x-5">
             <Card
@@ -44,9 +45,9 @@ const deleteMindMap = (item) => {
             @click="router.get(`/mindMap/${item.id}`)"
             >
                 <CardHeader class="flex justify-between items-center">
-                    <CardTitle>{{ item.title }}</CardTitle>
+                    <CardTitle class="font-semibold text-lg truncate w-[80%]">{{ item.title }}</CardTitle>
                     <div class="shadow-sm hover:bg-gray-50 rounded-full p-2 relative top-0">
-                        <Icon icon="mdi:dots-vertical" class="size-6 z-50" @click.stop="toggleMenu(item.id)"/>
+                        <Icon icon="mdi:dots-vertical" class="size-5 z-50" @click.stop="toggleMenu(item.id)"/>
                         <div
                         v-if="isModalOpen === item.id"
                         class="absolute -right-20 z-20 -bottom-10 py-2 rounded-lg bg-white w-28 h-auto shadow-sm text-center">
@@ -59,13 +60,12 @@ const deleteMindMap = (item) => {
                 </CardContent> -->
             </Card>
         </div>
-    </div>
-
-    <Button
-        @click="createMindMap"
-        class="w-auto h-auto rounded-full fixed bottom-10 right-10 p-3 cursor-pointer transition-transform"
-        size="icon"
-    >
-        <Icon icon="material-symbols:add-2-rounded" class="size-8" />
-    </Button>
+        <Button
+            @click="createMindMap"
+            class="w-auto h-auto rounded-full fixed bottom-10 right-10 p-2 cursor-pointer transition-transform"
+            size="icon"
+        >
+            <Icon icon="material-symbols:add-2-rounded" class="size-8" />
+        </Button>
+    </AuthenticatedLayout>
 </template>
